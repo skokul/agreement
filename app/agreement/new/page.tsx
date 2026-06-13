@@ -1,12 +1,5 @@
-import { Suspense } from "react";
-import { randomUUID } from "crypto";
-import { AgreementWorkspace } from "@/components/agreement-workspace";
+import { redirect } from "next/navigation";
 
 export default function NewAgreementPage() {
-  const agreementId = randomUUID();
-  return (
-    <Suspense fallback={<div className="p-6 text-sm text-ink-600">Loading agreement workspace...</div>}>
-      <AgreementWorkspace mode="new" agreementId={agreementId} />
-    </Suspense>
-  );
+  redirect("/");
 }

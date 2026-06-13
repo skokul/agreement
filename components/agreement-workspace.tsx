@@ -152,7 +152,7 @@ export function AgreementWorkspace({ mode, agreementId }: AgreementWorkspaceProp
         </p>
       </div>
       <div className="flex flex-wrap gap-3">
-        <Link href="/agreement/new" className="button-secondary">
+        <Link href="/" className="button-secondary">
           New Agreement
         </Link>
         {mode === "view" ? (
@@ -177,7 +177,7 @@ export function AgreementWorkspace({ mode, agreementId }: AgreementWorkspaceProp
           <h1 className="mt-2 text-2xl font-semibold text-ink-950">No saved agreement found for this ID.</h1>
           <p className="mt-3 text-sm text-ink-600">{loadError}</p>
           <div className="mt-6">
-            <Link href="/agreement/new" className="button-primary">
+            <Link href="/" className="button-primary">
               Create a new agreement
             </Link>
           </div>
