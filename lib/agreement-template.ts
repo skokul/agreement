@@ -226,7 +226,7 @@ function buildClauses(values: AgreementFormValues, propertyAddress: string, star
       `Either party shall have the right to terminate this Agreement without assigning any reason by giving the other party ${normalizeText(values.terminationNoticeMonths)} months' prior notice in writing after the initial ${normalizeText(values.lockInMonths)} months lock-in period.`,
       "Such notice may be given through WhatsApp message, email, registered post, courier or any other written communication sent to the contact details provided by the parties.",
       "The date of delivery or transmission of such notice shall be deemed to be the date of notice.",
-      "If the Licensee vacates the premises during the initial lock-in period without any breach on the part of the Licensor, the Licensor shall be entitled to adjust an amount equivalent to one month's rent together with reasonable actual re-letting expenses from the security deposit."
+      `If the Licensee vacates the premises during the initial ${normalizeText(values.lockInMonths)} months lock-in period without any breach on the part of the Licensor, the Licensor shall be entitled to adjust an amount equivalent to ${normalizeText(values.terminationNoticeMonths)} months' rent together with reasonable actual re-letting expenses from the security deposit.`
     ]),
     makeClause(28, "Stamp Duty and Registration", [
       "The Licensee shall bear the expenses of Stamp Duty and Registration of this Agreement wherever applicable."
@@ -235,7 +235,7 @@ function buildClauses(values: AgreementFormValues, propertyAddress: string, star
       "The Original Agreement shall remain with the Licensor and a signed copy shall be provided to the Licensee."
     ]),
     makeClause(30, "Jurisdiction", [
-      `Any disputes arising out of this Agreement shall be subject to the exclusive jurisdiction of the competent Courts at ${normalizeText(values.jurisdictionCity)}, ${normalizeText(values.jurisdictionState)}.`
+      "Any disputes arising out of or relating to this Agreement, the occupation of the premises, possession thereof, or any rights and obligations of the parties shall be subject to the exclusive jurisdiction of the competent Courts at Tiruchirappalli, Tamil Nadu."
     ]),
     makeClause(31, "Inspection of Locked Premises", [
       `If the premises remain locked, unattended or inaccessible for more than ${normalizeText(values.abandonmentDays)} consecutive days without prior written intimation by the Licensee, the Licensor shall have the right to inspect the premises after making reasonable efforts to contact the Licensee through phone, WhatsApp, email or other available means.`,
@@ -254,6 +254,24 @@ function buildClauses(values: AgreementFormValues, propertyAddress: string, star
     ]),
     makeClause(35, "Breach of Agreement", [
       "In the event the Licensee breaches any material term or condition of this Agreement and fails to remedy such breach within 15 days of receiving written notice from the Licensor, the Licensor shall be entitled to terminate this Agreement and take such action as may be available under law."
+    ]),
+    makeClause(36, "Failed or Reversed Payments", [
+      "Any rent payment made through UPI, bank transfer, cheque, online payment system or any other mode that is subsequently reversed, disputed, rejected, dishonoured, cancelled or otherwise fails to result in successful credit to the Licensor's account shall be deemed non-payment of rent.",
+      "The Licensee shall remain liable for the rent until the amount is successfully credited to the Licensor."
+    ]),
+    makeClause(37, "Abandonment of Premises", [
+      "If the premises remain locked, unattended or apparently abandoned for a continuous period exceeding 60 (Sixty) days and the Licensee fails to respond to communications from the Licensor, the Licensor shall have the right to take reasonable steps to secure and protect the premises after documenting the condition of the premises and maintaining an inventory of any belongings found therein."
+    ]),
+    makeClause(38, "Recovery of Outstanding Dues", [
+      "The Licensor shall be entitled to recover from the Licensee any unpaid rent, utility charges, maintenance charges, damages, penalties, legal expenses and other amounts payable under this Agreement that exceed the amount of the security deposit."
+    ]),
+    makeClause(39, "Condition of Premises", [
+      "The Licensee acknowledges having inspected the premises and having accepted the same in good and habitable condition.",
+      "Except for defects specifically notified in writing to the Licensor within 7 (Seven) days from the date of taking possession, the premises shall be deemed to have been accepted in satisfactory condition."
+    ]),
+    makeClause(40, "Possession Memorandum", [
+      "The parties may prepare and sign a possession memorandum recording the condition of the premises, utility meter readings, fixtures, fittings, keys and other items handed over at the commencement and termination of this Agreement.",
+      "Such memorandum shall form part of this Agreement."
     ])
   ];
 }

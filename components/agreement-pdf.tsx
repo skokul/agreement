@@ -68,6 +68,10 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     padding: 8,
     marginBottom: 8
+  },
+  signatureLine: {
+    marginTop: 8,
+    fontSize: 9
   }
 });
 
@@ -87,6 +91,15 @@ export function AgreementPdfDocument({ model }: { model: AgreementDocumentModel 
           <Text style={styles.value}>{model.property.description || "Not specified"}</Text>
         </View>
 
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Preamble</Text>
+          {model.preamble.map((paragraph, index) => (
+            <Text key={index} style={styles.paragraph}>
+              {paragraph}
+            </Text>
+          ))}
+        </View>
+
         {model.clauses.map((clause) => (
           <View key={clause.number} style={styles.section}>
             <Text style={styles.sectionTitle}>
@@ -99,6 +112,41 @@ export function AgreementPdfDocument({ model }: { model: AgreementDocumentModel 
             ))}
           </View>
         ))}
+
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Schedule of the Property</Text>
+          {model.property.scheduleLines.map((line, index) => (
+            <Text key={index} style={styles.paragraph}>
+              {line}
+            </Text>
+          ))}
+        </View>
+
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Closing and Signatures</Text>
+          {model.closing.map((paragraph, index) => (
+            <Text key={index} style={styles.paragraph}>
+              {paragraph}
+            </Text>
+          ))}
+          {model.signatures.map((signature) => (
+            <View key={signature.role} style={styles.signatureCard}>
+              <Text style={styles.label}>{signature.role}</Text>
+              <Text style={styles.value}>{signature.name || "Not specified"}</Text>
+              <Text style={styles.value}>{signature.address || "Not specified"}</Text>
+              <Text style={styles.value}>{signature.mobile || "Not specified"}</Text>
+              <Text style={styles.signatureLine}>Signature: ______________________</Text>
+            </View>
+          ))}
+          {model.witnesses.map((witness, index) => (
+            <View key={index} style={styles.signatureCard}>
+              <Text style={styles.label}>Witness {index + 1}</Text>
+              <Text style={styles.value}>{witness.name || "Not specified"}</Text>
+              <Text style={styles.value}>{witness.address || "Not specified"}</Text>
+              <Text style={styles.signatureLine}>Signature: ______________________</Text>
+            </View>
+          ))}
+        </View>
       </Page>
     </Document>
   );

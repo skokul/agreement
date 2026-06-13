@@ -31,11 +31,64 @@ export function AgreementPreview({ model }: AgreementPreviewProps) {
         </div>
       </header>
 
+      <section className="rounded-3xl border border-ink-200 bg-white p-5 sm:p-6">
+        <h3 className="text-base font-semibold text-ink-900">Preamble</h3>
+        <div className="mt-4 space-y-3 text-sm leading-6 text-ink-700">
+          {model.preamble.map((paragraph, index) => (
+            <p key={index} className="whitespace-pre-line text-justify">
+              {paragraph}
+            </p>
+          ))}
+        </div>
+      </section>
+
       <div className="space-y-4">
         {model.clauses.map((clause) => (
           <ClauseSection key={clause.number} {...clause} />
         ))}
       </div>
+
+      <section className="rounded-3xl border border-ink-200 bg-white p-5 sm:p-6">
+        <h3 className="text-base font-semibold text-ink-900">Schedule of Property</h3>
+        <div className="mt-4 space-y-2 text-sm leading-6 text-ink-700">
+          {model.property.scheduleLines.map((line, index) => (
+            <p key={index} className="whitespace-pre-line">
+              {line}
+            </p>
+          ))}
+        </div>
+      </section>
+
+      <section className="rounded-3xl border border-ink-200 bg-white p-5 sm:p-6">
+        <h3 className="text-base font-semibold text-ink-900">Closing and Signatures</h3>
+        <div className="mt-4 space-y-3 text-sm leading-6 text-ink-700">
+          {model.closing.map((paragraph, index) => (
+            <p key={index} className="whitespace-pre-line text-justify">
+              {paragraph}
+            </p>
+          ))}
+        </div>
+
+        <div className="mt-6 grid gap-4 md:grid-cols-2">
+          {model.signatures.map((signature) => (
+            <div key={signature.role} className="rounded-2xl border border-dashed border-ink-300 p-4">
+              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-ink-500">{signature.role}</p>
+              <p className="mt-2 text-sm font-semibold text-ink-900">{signature.name || "Not specified"}</p>
+              <p className="mt-1 text-sm text-ink-600">{signature.address || "Not specified"}</p>
+              <p className="mt-1 text-sm text-ink-600">{signature.mobile || "Not specified"}</p>
+              <p className="mt-4 text-sm text-ink-700">Signature: ______________________</p>
+            </div>
+          ))}
+          {model.witnesses.map((witness, index) => (
+            <div key={index} className="rounded-2xl border border-dashed border-ink-300 p-4">
+              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-ink-500">Witness {index + 1}</p>
+              <p className="mt-2 text-sm font-semibold text-ink-900">{witness.name || "Not specified"}</p>
+              <p className="mt-1 text-sm text-ink-600">{witness.address || "Not specified"}</p>
+              <p className="mt-4 text-sm text-ink-700">Signature: ______________________</p>
+            </div>
+          ))}
+        </div>
+      </section>
     </article>
   );
 }

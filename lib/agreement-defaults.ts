@@ -1,5 +1,4 @@
 import type { AgreementFormValues } from "@/lib/agreement-schema";
-import { amountToRupeeWords } from "@/lib/number-to-words";
 import { formatDateInputValue } from "@/lib/format";
 
 function addMonths(date: Date, months: number) {
@@ -52,16 +51,16 @@ export function createDefaultAgreementValues(): AgreementFormValues {
     propertyPincode: "",
     fullPropertyAddress: "",
 
-    securityDepositAmount: "30000",
-    securityDepositAmountWords: amountToRupeeWords("30000"),
-    monthlyRentAmount: "5800",
-    monthlyRentAmountWords: amountToRupeeWords("5800"),
-    rentDueDay: "5",
-    rentPaymentMode: "UPI transfer",
-    lateFeeType: "Percentage of monthly rent",
-    lateFeeValue: "2%",
-    rentEscalationPercent: "10",
-    depositRefundDays: "30",
+    securityDepositAmount: "",
+    securityDepositAmountWords: "",
+    monthlyRentAmount: "",
+    monthlyRentAmountWords: "",
+    rentDueDay: "",
+    rentPaymentMode: "",
+    lateFeeType: "",
+    lateFeeValue: "",
+    rentEscalationPercent: "",
+    depositRefundDays: "",
 
     lockInMonths: "6",
     terminationNoticeMonths: "2",
@@ -85,4 +84,3 @@ export function createDefaultAgreementValues(): AgreementFormValues {
     emergencyEntryClauseEnabled: true
   };
 }
-
