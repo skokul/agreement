@@ -131,6 +131,7 @@ export function AgreementWorkspace({ mode, agreementId }: AgreementWorkspaceProp
   const filenameBase = safeFileName(`leave-license-${agreementId}`);
   const isReady = hydrated && !loadError;
   const canExport = isReady && form.formState.isValid;
+  const canSave = isReady && !form.formState.isSubmitting;
 
   const header = (
     <header className="mb-6 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
@@ -218,10 +219,16 @@ export function AgreementWorkspace({ mode, agreementId }: AgreementWorkspaceProp
       <div className="grid gap-6 xl:grid-cols-[minmax(0,1.08fr)_minmax(0,0.92fr)]">
         <div className="document-card p-5 sm:p-6">
           <FormProvider {...form}>
-            <form onSubmit={form.handleSubmit(handleSave)} className="space-y-5">
+            <form
+              className="space-y-5"
+              onSubmit={(event) => {
+                event.preventDefault();
+                void handleSave(form.getValues());
+              }}
+            >
               <AgreementForm />
               <div className="flex flex-wrap items-center gap-3 border-t border-ink-200 pt-5">
-                <button type="submit" className="button-primary" disabled={!canExport || form.formState.isSubmitting}>
+                <button type="submit" className="button-primary" disabled={!canSave}>
                   {mode === "new" ? "Save Draft" : "Save Changes"}
                 </button>
                 <DownloadButtons model={template} filenameBase={filenameBase} disabled={!canExport} />
