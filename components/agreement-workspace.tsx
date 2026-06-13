@@ -28,6 +28,7 @@ export function AgreementWorkspace({ mode, agreementId }: AgreementWorkspaceProp
   const router = useRouter();
   const searchParams = useSearchParams();
   const [defaultValues] = useState(() => createDefaultAgreementValues());
+  const [origin, setOrigin] = useState("");
   const searchQuery = searchParams.toString();
 
   const form = useForm<AgreementFormValues>({
@@ -46,6 +47,10 @@ export function AgreementWorkspace({ mode, agreementId }: AgreementWorkspaceProp
   const [hydrated, setHydrated] = useState(mode === "new");
   const [loadError, setLoadError] = useState<string | null>(null);
   const [status, setStatus] = useState<string | null>(null);
+
+  useEffect(() => {
+    setOrigin(window.location.origin);
+  }, []);
 
   useEffect(() => {
     let active = true;
@@ -117,7 +122,6 @@ export function AgreementWorkspace({ mode, agreementId }: AgreementWorkspaceProp
   }
 
   const shareLinkBuilder = () => {
-    const origin = typeof window !== "undefined" ? window.location.origin : "";
     const record = {
       id: agreementId,
       values: currentValues,
@@ -127,6 +131,8 @@ export function AgreementWorkspace({ mode, agreementId }: AgreementWorkspaceProp
 
     return origin ? buildAgreementShareLink(origin, { record }) : "";
   };
+
+  const previewLink = shareLinkBuilder();
 
   const filenameBase = safeFileName(`leave-license-${agreementId}`);
   const isReady = hydrated && !loadError;
@@ -238,8 +244,34 @@ export function AgreementWorkspace({ mode, agreementId }: AgreementWorkspaceProp
           </FormProvider>
         </div>
 
-        <div className="document-card p-5 sm:p-6">
-          <AgreementPreview model={template} />
+        <div className="document-card flex items-stretch p-5 sm:p-6">
+          <div className="flex w-full flex-col justify-between gap-6 rounded-3xl border border-dashed border-ink-300 bg-ink-50/60 p-6">
+            <div className="space-y-3">
+              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-ink-500">Agreement preview</p>
+              <h2 className="text-2xl font-semibold tracking-tight text-ink-950">Open in a new tab</h2>
+              <p className="text-sm leading-6 text-ink-600">
+                Click the button below to open the latest agreement snapshot in a separate tab for review.
+              </p>
+            </div>
+            <div className="space-y-3">
+              <button
+                type="button"
+                className="button-primary w-full"
+                disabled={!isReady || !previewLink}
+                onClick={() => {
+                  if (!previewLink) {
+                    return;
+                  }
+                  window.open(previewLink, "_blank", "noopener,noreferrer");
+                }}
+              >
+                Open Agreement Preview
+              </button>
+              <p className="text-xs leading-5 text-ink-500">
+                The preview uses the current form values, so it stays in sync with your edits.
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
