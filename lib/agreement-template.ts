@@ -1,5 +1,5 @@
 import type { AgreementFormValues } from "@/lib/agreement-schema";
-import { buildPropertyAddress, formatAgreementDate, joinNonEmpty, normalizeText } from "@/lib/format";
+import { buildPropertyAddress, calculateAgreementEndDate, formatAgreementDate, joinNonEmpty, normalizeText } from "@/lib/format";
 
 export interface AgreementClause {
   number: number;
@@ -114,6 +114,7 @@ function makeClause(number: number, title: string, paragraphs: string[]): Agreem
 }
 
 function buildPreamble(values: AgreementFormValues, place: string, agreementDate: string, startDate: string, endDate: string, propertyAddress: string) {
+  const derivedEndDate = calculateAgreementEndDate(values.agreementStartDate, values.agreementTermMonths);
   return [
     `This Agreement of LEAVE & LICENSE is made and entered into at ${place || "[Place]"} on this ${agreementDate || "[Date]"},`,
     "BETWEEN",
@@ -122,7 +123,7 @@ function buildPreamble(values: AgreementFormValues, place: string, agreementDate
     `Mr. ${normalizeText(values.tenantName)}, S/o ${normalizeText(values.tenantFatherName)}, residing at ${normalizeText(values.tenantAddress)}, Mobile No.: ${normalizeText(values.tenantMobile)}; hereinafter called and referred to as the "LICENSEE" (which expression shall unless it be repugnant to the context or meaning thereof mean and include his heirs, executors, administrators and assigns) of the OTHER PART.`,
     "WHEREAS",
     `The Licensor is the owner and well possessed of a residential house bearing address: ${propertyAddress || "[Property address]"} hereinafter referred to as the "SAID PREMISES" for the sake of brevity, more particularly described in the Schedule hereunder.`,
-    `AND WHEREAS the Licensee has approached the Licensor with a request to occupy the said premises on Leave and License basis, and the Licensor has agreed to grant such permission for a period of ${normalizeText(values.agreementTermMonths)} months commencing from ${startDate || "[Start date]"} and ending on ${endDate || "[End date]"}. The Agreement may be extended upon mutual agreement between the parties.`,
+    `AND WHEREAS the Licensee has approached the Licensor with a request to occupy the said premises on Leave and License basis, and the Licensor has agreed to grant such permission for a period of ${normalizeText(values.agreementTermMonths)} months commencing from ${startDate || "[Start date]"} and ending on ${derivedEndDate || endDate || "[End date]"}. The Agreement may be extended upon mutual agreement between the parties.`,
     "NOW THIS INDENTURE WITNESSETH AS UNDER:"
   ];
 }
@@ -294,6 +295,21 @@ function buildClauses(values: AgreementFormValues, propertyAddress: string, star
     makeClause(45, "Service of Notices", [
       "Any notice under this Agreement may be served by hand delivery, registered post, courier, email or WhatsApp to the contact details last notified by the parties.",
       "Such notice shall be deemed received on delivery, transmission confirmation or acknowledgment, as applicable."
+    ]),
+    makeClause(46, "Waiver", [
+      "No failure or delay by the Licensor in exercising any right, power or remedy under this Agreement shall operate as a waiver thereof, nor shall any single or partial exercise of any right prevent further exercise of the same or any other right."
+    ]),
+    makeClause(47, "Severability", [
+      "If any provision of this Agreement is held to be invalid, illegal or unenforceable, the remaining provisions shall remain in full force and effect."
+    ]),
+    makeClause(48, "Electronic Records", [
+      "The parties agree that electronic communications, emails, WhatsApp messages, scanned copies, electronic signatures and digitally stored records relating to this Agreement may be relied upon as evidence of communication and performance of obligations under this Agreement, subject to applicable law."
+    ]),
+    makeClause(49, "Governing Law", [
+      "This Agreement shall be governed by and construed in accordance with the laws of India and the laws applicable in the State of Tamil Nadu."
+    ]),
+    makeClause(50, "Joint and Several Liability", [
+      "Where more than one person signs this Agreement as Licensee, each Licensee shall be jointly and severally liable for all obligations, payments, damages and liabilities arising under this Agreement."
     ])
   ];
 }

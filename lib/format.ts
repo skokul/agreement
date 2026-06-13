@@ -43,6 +43,21 @@ export function formatAgreementDateTime(dateValue: string) {
   }).format(date);
 }
 
+export function calculateAgreementEndDate(startDateValue: string, termMonthsValue: string) {
+  const startDate = new Date(`${startDateValue}T00:00:00`);
+  const termMonths = Number.parseInt(termMonthsValue, 10);
+
+  if (Number.isNaN(startDate.getTime()) || !Number.isFinite(termMonths) || termMonths <= 0) {
+    return "";
+  }
+
+  const endDate = new Date(startDate);
+  endDate.setMonth(endDate.getMonth() + termMonths);
+  endDate.setDate(endDate.getDate() - 1);
+
+  return formatAgreementDate(formatDateInputValue(endDate));
+}
+
 export function buildPropertyAddress(values: Pick<
   AgreementFormValues,
   | "propertyDoorNo"
