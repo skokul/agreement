@@ -99,32 +99,6 @@ export function AgreementPdfDocument({ model }: { model: AgreementDocumentModel 
             ))}
           </View>
         ))}
-
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Schedule of Property</Text>
-          <Text style={styles.paragraph}>{model.property.fullAddress || "Not specified"}</Text>
-        </View>
-
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Signatures and Witnesses</Text>
-          <View style={styles.signatureGrid}>
-            {model.signatures.map((signature) => (
-              <View key={signature.role} style={styles.signatureCard}>
-                <Text style={styles.label}>{signature.role}</Text>
-                <Text style={styles.value}>{signature.name || "Not specified"}</Text>
-                <Text style={styles.value}>{signature.address || "Not specified"}</Text>
-                <Text style={styles.value}>{signature.mobile || "Not specified"}</Text>
-              </View>
-            ))}
-            {model.witnesses.map((witness, index) => (
-              <View key={index} style={styles.signatureCard}>
-                <Text style={styles.label}>Witness {index + 1}</Text>
-                <Text style={styles.value}>{witness.name || "Not specified"}</Text>
-                <Text style={styles.value}>{witness.address || "Not specified"}</Text>
-              </View>
-            ))}
-          </View>
-        </View>
       </Page>
     </Document>
   );

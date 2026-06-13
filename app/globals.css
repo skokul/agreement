@@ -44,13 +44,13 @@ body {
 }
 
 .button-primary {
-  @apply button-base bg-ink-900 text-white hover:bg-ink-800;
+  @apply inline-flex items-center justify-center rounded-2xl bg-ink-900 px-4 py-3 text-sm font-semibold text-white transition hover:bg-ink-800;
 }
 
 .button-secondary {
-  @apply button-base border border-ink-200 bg-white text-ink-800 hover:bg-ink-100;
+  @apply inline-flex items-center justify-center rounded-2xl border border-ink-200 bg-white px-4 py-3 text-sm font-semibold text-ink-800 transition hover:bg-ink-100;
 }
 
 .button-danger {
-  @apply button-base border border-red-200 bg-red-50 text-red-700 hover:bg-red-100;
+  @apply inline-flex items-center justify-center rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-semibold text-red-700 transition hover:bg-red-100;
 }

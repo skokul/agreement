@@ -2,13 +2,15 @@ import { AlignmentType, Document, HeadingLevel, Packer, Paragraph, TextRun } fro
 import type { AgreementDocumentModel } from "@/lib/agreement-template";
 
 function clauseParagraphs(text: string[]) {
-  return text.map(
-    (paragraph) =>
-      new Paragraph({
-        text: paragraph,
-        spacing: { after: 120, line: 280 },
-        alignment: AlignmentType.JUSTIFIED
-      })
+  return text.flatMap((paragraph) =>
+    paragraph.split("\n").map(
+      (line) =>
+        new Paragraph({
+          text: line,
+          spacing: { after: 120, line: 280 },
+          alignment: AlignmentType.JUSTIFIED
+        })
+    )
   );
 }
 
@@ -37,54 +39,7 @@ export async function createAgreementDocxBlob(model: AgreementDocumentModel) {
               spacing: { before: 200, after: 120 }
             }),
             ...clauseParagraphs(clause.paragraphs)
-          ]),
-          new Paragraph({
-            text: "SCHEDULE OF THE PROPERTY",
-            heading: HeadingLevel.HEADING_2,
-            spacing: { before: 260, after: 120 }
-          }),
-          ...(model.property.fullAddress
-            ? [
-                new Paragraph({
-                  text: model.property.fullAddress,
-                  spacing: { after: 120, line: 280 },
-                  alignment: AlignmentType.JUSTIFIED
-                })
-              ]
-            : []),
-          new Paragraph({
-            text: "SIGNATURES AND WITNESSES",
-            heading: HeadingLevel.HEADING_2,
-            spacing: { before: 260, after: 120 }
-          }),
-          ...model.signatures.flatMap(
-            (signature) => [
-              new Paragraph({
-                text: `${signature.role}: ${signature.name}`,
-                spacing: { after: 60 }
-              }),
-              new Paragraph({
-                text: `Address: ${signature.address}`,
-                spacing: { after: 60 }
-              }),
-              new Paragraph({
-                text: `Mobile: ${signature.mobile}`,
-                spacing: { after: 120 }
-              })
-            ]
-          ),
-          ...model.witnesses.flatMap(
-            (witness, index) => [
-              new Paragraph({
-                text: `Witness ${index + 1}: ${witness.name}`,
-                spacing: { after: 60 }
-              }),
-              new Paragraph({
-                text: `Address: ${witness.address}`,
-                spacing: { after: 120 }
-              })
-            ]
-          )
+          ])
         ]
       }
     ]

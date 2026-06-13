@@ -303,6 +303,13 @@ export function buildAgreementTemplate(values: AgreementFormValues): AgreementDo
       title: "Schedule of Property",
       paragraphs: [
         `Residential property situated at ${scheduleAddress || "[Property address]"} and all appurtenances attached thereto.`,
+        `Door / Flat No.: ${normalizeText(values.propertyDoorNo)}`,
+        `Street / Road: ${normalizeText(values.propertyStreet)}`,
+        `Area / Locality: ${normalizeText(values.propertyArea)}`,
+        `City / Town: ${normalizeText(values.propertyCity)}`,
+        `District: ${normalizeText(values.propertyDistrict)}`,
+        `State: ${normalizeText(values.propertyState)}`,
+        `Pincode: ${normalizeText(values.propertyPincode)}`,
         "This schedule forms an integral part of the Agreement."
       ]
     },
@@ -310,7 +317,11 @@ export function buildAgreementTemplate(values: AgreementFormValues): AgreementDo
       number: 27,
       title: "Signatures and Witnesses",
       paragraphs: [
-        "IN WITNESS WHEREOF, the parties hereto have set and subscribed their respective hands on the day, month, and year first above written."
+        "IN WITNESS WHEREOF, the parties hereto have set and subscribed their respective hands on the day, month, and year first above written.",
+        `LICENSOR: ${normalizeText(values.ownerName)}\nAddress: ${normalizeText(values.ownerAddress)}\nMobile: ${normalizeText(values.ownerMobile)}\nSignature: ____________________`,
+        `LICENSEE: ${normalizeText(values.tenantName)}\nAddress: ${normalizeText(values.tenantAddress)}\nMobile: ${normalizeText(values.tenantMobile)}\nSignature: ____________________`,
+        `Witness 1: ${normalizeText(values.witness1Name)}\nAddress: ${normalizeText(values.witness1Address)}\nSignature: ____________________`,
+        `Witness 2: ${normalizeText(values.witness2Name)}\nAddress: ${normalizeText(values.witness2Address)}\nSignature: ____________________`
       ]
     }
   ];
