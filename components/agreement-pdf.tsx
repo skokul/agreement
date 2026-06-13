@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     flexWrap: "wrap",
-    gap: 8
+    justifyContent: "space-between"
   },
   signatureCard: {
     width: "48%",
@@ -129,4 +129,3 @@ export function AgreementPdfDocument({ model }: { model: AgreementDocumentModel 
     </Document>
   );
 }
-

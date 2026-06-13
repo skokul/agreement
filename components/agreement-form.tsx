@@ -148,7 +148,8 @@ function Field({ field }: { field: FieldDescriptor }) {
     formState: { errors }
   } = useFormContext<AgreementFormValues>();
 
-  const error = getErrorMessage(errors[field.name]);
+  const typedErrors = errors as Partial<Record<keyof AgreementFormValues, { message?: string }>>;
+  const error = getErrorMessage(typedErrors[field.name as keyof AgreementFormValues]);
 
   if (field.kind === "checkbox") {
     return (
@@ -222,4 +223,3 @@ export function AgreementForm() {
     </div>
   );
 }
-

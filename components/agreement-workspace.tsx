@@ -27,7 +27,8 @@ interface AgreementWorkspaceProps {
 export function AgreementWorkspace({ mode, agreementId }: AgreementWorkspaceProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const defaultValues = createDefaultAgreementValues();
+  const [defaultValues] = useState(() => createDefaultAgreementValues());
+  const searchQuery = searchParams.toString();
 
   const form = useForm<AgreementFormValues>({
     resolver: zodResolver(agreementSchema),
@@ -50,19 +51,21 @@ export function AgreementWorkspace({ mode, agreementId }: AgreementWorkspaceProp
     let active = true;
 
     async function loadAgreement() {
-      const snapshotParam = searchParams.get("snapshot");
+      const snapshotParam = new URLSearchParams(searchQuery).get("snapshot");
       const snapshot = snapshotParam ? decodeAgreementSnapshot(snapshotParam) : null;
 
-      if (mode === "new") {
+    if (mode === "new") {
         if (!active) {
           return;
         }
 
         if (snapshot?.record?.values) {
           form.reset(snapshot.record.values);
+          await form.trigger();
           setStatus("Loaded shared snapshot.");
         } else {
           form.reset(defaultValues);
+          await form.trigger();
         }
 
         setHydrated(true);
@@ -76,6 +79,7 @@ export function AgreementWorkspace({ mode, agreementId }: AgreementWorkspaceProp
 
       if (existing) {
         form.reset(existing.values);
+        await form.trigger();
         setHydrated(true);
         setStatus(null);
         return;
@@ -84,6 +88,7 @@ export function AgreementWorkspace({ mode, agreementId }: AgreementWorkspaceProp
       if (snapshot?.record?.values) {
         form.reset(snapshot.record.values);
         await upsertAgreementRecord(agreementId, snapshot.record.values);
+        await form.trigger();
         setHydrated(true);
         setStatus("Loaded shared snapshot.");
         return;
@@ -98,7 +103,7 @@ export function AgreementWorkspace({ mode, agreementId }: AgreementWorkspaceProp
     return () => {
       active = false;
     };
-  }, [agreementId, defaultValues, form, mode, searchParams]);
+  }, [agreementId, defaultValues, form, mode, searchQuery]);
 
   async function handleSave(values: AgreementFormValues) {
     const record = await upsertAgreementRecord(agreementId, values);
@@ -108,6 +113,7 @@ export function AgreementWorkspace({ mode, agreementId }: AgreementWorkspaceProp
       return;
     }
     form.reset(record.values);
+    void form.trigger();
   }
 
   const shareLinkBuilder = () => {
@@ -125,23 +131,6 @@ export function AgreementWorkspace({ mode, agreementId }: AgreementWorkspaceProp
   const filenameBase = safeFileName(`leave-license-${agreementId}`);
   const isReady = hydrated && !loadError;
   const canExport = isReady && form.formState.isValid;
-
-  if (loadError && mode !== "new") {
-    return (
-      <div className="mx-auto min-h-screen max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
-        <div className="document-card p-6">
-          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-ink-500">Agreement not found</p>
-          <h1 className="mt-2 text-2xl font-semibold text-ink-950">No saved agreement found for this ID.</h1>
-          <p className="mt-3 text-sm text-ink-600">{loadError}</p>
-          <div className="mt-6">
-            <Link href="/agreement/new" className="button-primary">
-              Create a new agreement
-            </Link>
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   const header = (
     <header className="mb-6 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
@@ -173,6 +162,39 @@ export function AgreementWorkspace({ mode, agreementId }: AgreementWorkspaceProp
       </div>
     </header>
   );
+
+  if (loadError && mode !== "new") {
+    return (
+      <div className="mx-auto min-h-screen max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
+        <div className="document-card p-6">
+          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-ink-500">Agreement not found</p>
+          <h1 className="mt-2 text-2xl font-semibold text-ink-950">No saved agreement found for this ID.</h1>
+          <p className="mt-3 text-sm text-ink-600">{loadError}</p>
+          <div className="mt-6">
+            <Link href="/agreement/new" className="button-primary">
+              Create a new agreement
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (!hydrated) {
+    return (
+      <div className="mx-auto min-h-screen max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+        {header}
+        <div className="document-card p-6">
+          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-ink-500">Loading agreement</p>
+          <div className="mt-4 space-y-3">
+            <div className="h-4 w-1/3 animate-pulse rounded-full bg-ink-200" />
+            <div className="h-4 w-2/3 animate-pulse rounded-full bg-ink-200" />
+            <div className="h-4 w-1/2 animate-pulse rounded-full bg-ink-200" />
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   if (mode === "view") {
     return (
@@ -217,4 +239,3 @@ export function AgreementWorkspace({ mode, agreementId }: AgreementWorkspaceProp
     </div>
   );
 }
-

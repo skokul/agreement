@@ -10,6 +10,14 @@ export interface AgreementRecord {
   updatedAt: string;
 }
 
+export interface AgreementRepository {
+  list(): Promise<AgreementRecord[]>;
+  get(id: string): Promise<AgreementRecord | null>;
+  save(record: AgreementRecord): Promise<AgreementRecord>;
+  upsert(id: string, values: AgreementFormValues): Promise<AgreementRecord>;
+  remove(id: string): Promise<void>;
+}
+
 type AgreementStore = {
   records: Record<string, AgreementRecord>;
 };
@@ -44,40 +52,57 @@ function writeStore(store: AgreementStore) {
   window.localStorage.setItem(STORAGE_KEY, JSON.stringify(store));
 }
 
+export const localStorageAgreementRepository: AgreementRepository = {
+  async list() {
+    return Object.values(readStore().records).sort((left, right) => right.updatedAt.localeCompare(left.updatedAt));
+  },
+  async get(id: string) {
+    return readStore().records[id] ?? null;
+  },
+  async save(record: AgreementRecord) {
+    const store = readStore();
+    store.records[record.id] = record;
+    writeStore(store);
+    return record;
+  },
+  async upsert(id: string, values: AgreementFormValues) {
+    const store = readStore();
+    const now = new Date().toISOString();
+    const existing = store.records[id];
+    const record: AgreementRecord = {
+      id: existing?.id ?? id ?? uuidv4(),
+      values,
+      createdAt: existing?.createdAt ?? now,
+      updatedAt: now
+    };
+
+    store.records[record.id] = record;
+    writeStore(store);
+    return record;
+  },
+  async remove(id: string) {
+    const store = readStore();
+    delete store.records[id];
+    writeStore(store);
+  }
+};
+
 export async function listAgreementRecords() {
-  return Object.values(readStore().records).sort((left, right) => right.updatedAt.localeCompare(left.updatedAt));
+  return localStorageAgreementRepository.list();
 }
 
 export async function getAgreementRecord(id: string) {
-  return readStore().records[id] ?? null;
+  return localStorageAgreementRepository.get(id);
 }
 
 export async function saveAgreementRecord(record: AgreementRecord) {
-  const store = readStore();
-  store.records[record.id] = record;
-  writeStore(store);
-  return record;
+  return localStorageAgreementRepository.save(record);
 }
 
 export async function upsertAgreementRecord(id: string, values: AgreementFormValues) {
-  const store = readStore();
-  const now = new Date().toISOString();
-  const existing = store.records[id];
-  const record: AgreementRecord = {
-    id: existing?.id ?? id ?? uuidv4(),
-    values,
-    createdAt: existing?.createdAt ?? now,
-    updatedAt: now
-  };
-
-  store.records[record.id] = record;
-  writeStore(store);
-  return record;
+  return localStorageAgreementRepository.upsert(id, values);
 }
 
 export async function removeAgreementRecord(id: string) {
-  const store = readStore();
-  delete store.records[id];
-  writeStore(store);
+  return localStorageAgreementRepository.remove(id);
 }
-

@@ -1,11 +1,10 @@
 import { AgreementWorkspace } from "@/components/agreement-workspace";
 
 interface AgreementEditPageProps {
-  params: Promise<{ id: string }>;
+  params: { id: string };
 }
 
-export default async function AgreementEditPage({ params }: AgreementEditPageProps) {
-  const { id } = await params;
+export default function AgreementEditPage({ params }: AgreementEditPageProps) {
+  const { id } = params;
   return <AgreementWorkspace mode="edit" agreementId={id} />;
 }
-
