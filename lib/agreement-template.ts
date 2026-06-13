@@ -55,9 +55,9 @@ function personBlock(
   address: string,
   mobile: string,
   email: string,
-  idType: string,
-  idNumber: string,
-  upiId: string
+  idType?: string,
+  idNumber?: string,
+  upiId?: string
 ): AgreementSignatureBlock {
   return {
     title: role,
