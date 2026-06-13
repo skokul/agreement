@@ -260,7 +260,9 @@ function buildClauses(values: AgreementFormValues, propertyAddress: string, star
       "The Licensee shall remain liable for the rent until the amount is successfully credited to the Licensor."
     ]),
     makeClause(37, "Abandonment of Premises", [
-      "If the premises remain locked, unattended or apparently abandoned for a continuous period exceeding 60 (Sixty) days and the Licensee fails to respond to communications from the Licensor, the Licensor shall have the right to take reasonable steps to secure and protect the premises after documenting the condition of the premises and maintaining an inventory of any belongings found therein."
+      "If the premises remain locked, unattended or unoccupied for a continuous period exceeding 60 (Sixty) days and the Licensee fails to respond to communications sent by the Licensor through phone, WhatsApp, email, courier or registered post, the Licensor may issue a final written notice requiring the Licensee to respond within 7 (Seven) days.",
+      "If the Licensee fails to respond within such period, the Licensor shall be entitled to take reasonable steps to inspect, secure and protect the premises, including changing locks where necessary for the protection of the property.",
+      "Any belongings found within the premises shall be inventoried and preserved by the Licensor for a reasonable period, and the Licensor shall not be liable for deterioration resulting from storage, passage of time or circumstances beyond his control."
     ]),
     makeClause(38, "Recovery of Outstanding Dues", [
       "The Licensor shall be entitled to recover from the Licensee any unpaid rent, utility charges, maintenance charges, damages, penalties, legal expenses and other amounts payable under this Agreement that exceed the amount of the security deposit."
@@ -272,6 +274,26 @@ function buildClauses(values: AgreementFormValues, propertyAddress: string, star
     makeClause(40, "Possession Memorandum", [
       "The parties may prepare and sign a possession memorandum recording the condition of the premises, utility meter readings, fixtures, fittings, keys and other items handed over at the commencement and termination of this Agreement.",
       "Such memorandum shall form part of this Agreement."
+    ]),
+    makeClause(41, "Indemnity", [
+      "The Licensee shall indemnify and keep indemnified the Licensor against all losses, damages, claims, liabilities, penalties, proceedings, costs and expenses arising out of:",
+      "(a) any breach of this Agreement by the Licensee;",
+      "(b) any act, omission, negligence or misconduct of the Licensee, his family members, guests, employees or invitees;",
+      "(c) any violation of applicable laws, rules, regulations or municipal requirements by the Licensee.",
+      "The obligations under this clause shall survive termination of this Agreement."
+    ]),
+    makeClause(42, "Force Majeure", [
+      "Neither party shall be liable for delay or failure in performing obligations under this Agreement due to events beyond reasonable control, including natural disasters, floods, earthquakes, war, governmental restrictions, epidemics or other force majeure events, except that the Licensee's obligation to pay rent already due shall not be affected."
+    ]),
+    makeClause(43, "Entire Agreement", [
+      "This Agreement constitutes the entire understanding between the parties and supersedes all prior oral or written discussions, negotiations, representations and understandings relating to the premises."
+    ]),
+    makeClause(44, "Amendments", [
+      "No amendment, modification or waiver of any provision of this Agreement shall be valid unless made in writing and signed by both parties."
+    ]),
+    makeClause(45, "Service of Notices", [
+      "Any notice under this Agreement may be served by hand delivery, registered post, courier, email or WhatsApp to the contact details last notified by the parties.",
+      "Such notice shall be deemed received on delivery, transmission confirmation or acknowledgment, as applicable."
     ])
   ];
 }
