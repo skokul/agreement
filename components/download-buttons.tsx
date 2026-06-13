@@ -15,12 +15,16 @@ interface DownloadButtonsProps {
 
 export function DownloadButtons({ model, filenameBase, disabled }: DownloadButtonsProps) {
   const [busy, setBusy] = useState<"docx" | "pdf" | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   async function handleDocx() {
     setBusy("docx");
+    setError(null);
     try {
       const blob = await createAgreementDocxBlob(model);
       saveAs(blob, `${safeFileName(filenameBase)}.docx`);
+    } catch {
+      setError("DOCX export failed.");
     } finally {
       setBusy(null);
     }
@@ -28,9 +32,12 @@ export function DownloadButtons({ model, filenameBase, disabled }: DownloadButto
 
   async function handlePdf() {
     setBusy("pdf");
+    setError(null);
     try {
       const blob = await createAgreementPdfBlob(model);
       saveAs(blob, `${safeFileName(filenameBase)}.pdf`);
+    } catch {
+      setError("PDF export failed.");
     } finally {
       setBusy(null);
     }
@@ -44,7 +51,7 @@ export function DownloadButtons({ model, filenameBase, disabled }: DownloadButto
       <button type="button" className="button-secondary" onClick={handlePdf} disabled={disabled || busy !== null}>
         {busy === "pdf" ? "Preparing PDF..." : "Download PDF"}
       </button>
+      {error ? <p className="w-full text-sm text-red-600">{error}</p> : null}
     </div>
   );
 }
-

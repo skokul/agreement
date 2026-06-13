@@ -130,7 +130,6 @@ export function AgreementWorkspace({ mode, agreementId }: AgreementWorkspaceProp
 
   const filenameBase = safeFileName(`leave-license-${agreementId}`);
   const isReady = hydrated && !loadError;
-  const canExport = isReady && form.formState.isValid;
   const canSave = isReady && !form.formState.isSubmitting;
 
   const header = (
@@ -204,7 +203,7 @@ export function AgreementWorkspace({ mode, agreementId }: AgreementWorkspaceProp
         <div className="document-card p-5 sm:p-6">
           <AgreementPreview model={template} />
           <div className="mt-6 flex flex-wrap items-center gap-3">
-            <DownloadButtons model={template} filenameBase={filenameBase} disabled={!canExport} />
+            <DownloadButtons model={template} filenameBase={filenameBase} disabled={!isReady} />
             <ShareButton getLink={shareLinkBuilder} disabled={!isReady} />
           </div>
           {status ? <p className="mt-4 text-sm text-ink-600">{status}</p> : null}
@@ -231,7 +230,7 @@ export function AgreementWorkspace({ mode, agreementId }: AgreementWorkspaceProp
                 <button type="submit" className="button-primary" disabled={!canSave}>
                   {mode === "new" ? "Save Draft" : "Save Changes"}
                 </button>
-                <DownloadButtons model={template} filenameBase={filenameBase} disabled={!canExport} />
+                <DownloadButtons model={template} filenameBase={filenameBase} disabled={!isReady} />
                 <ShareButton getLink={shareLinkBuilder} disabled={!isReady} />
               </div>
               {status ? <p className="text-sm text-ink-600">{status}</p> : null}

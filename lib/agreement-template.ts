@@ -73,6 +73,40 @@ function personBlock(
   };
 }
 
+function buildOwnerIdentityLine(
+  idType: string | undefined,
+  idNumber: string | undefined,
+  upiId: string | undefined
+) {
+  const normalizedIdType = normalizeText(idType);
+  const normalizedIdNumber = normalizeText(idNumber);
+  const normalizedUpiId = normalizeText(upiId);
+  const parts: string[] = [];
+
+  if (normalizedIdType || normalizedIdNumber) {
+    parts.push(
+      [normalizedIdType, normalizedIdNumber ? `No. ${normalizedIdNumber}` : ""]
+        .filter(Boolean)
+        .join(" ")
+        .trim()
+    );
+  }
+
+  if (normalizedUpiId) {
+    parts.push(`UPI ID ${normalizedUpiId}`);
+  }
+
+  if (!parts.length) {
+    return "";
+  }
+
+  if (parts.length === 1 && normalizedUpiId && !(normalizedIdType || normalizedIdNumber)) {
+    return `, ${parts[0]}`;
+  }
+
+  return `, holding ${parts.join(", ")}`;
+}
+
 export function buildAgreementTemplate(values: AgreementFormValues): AgreementDocumentModel {
   const place = normalizeText(values.agreementPlace);
   const agreementDate = formatAgreementDate(values.agreementDate);
@@ -103,7 +137,7 @@ export function buildAgreementTemplate(values: AgreementFormValues): AgreementDo
       number: 1,
       title: "Parties",
       paragraphs: [
-        `This Leave and License Agreement is made at ${place || "[Place]"} on ${agreementDate || "[Date]"} between ${normalizeText(values.ownerName)}, S/o/D/o ${normalizeText(values.ownerFatherName)}, aged ${normalizeText(values.ownerAge)}, residing at ${normalizeText(values.ownerAddress)}, mobile ${normalizeText(values.ownerMobile)}, email ${normalizeText(values.ownerEmail)}, holding ${normalizeText(values.ownerIdType)} No. ${normalizeText(values.ownerIdNumber)}, UPI ID ${normalizeText(values.ownerUpiId)}, hereinafter called the "LICENSOR" of the FIRST PART, and ${normalizeText(values.tenantName)}, S/o/D/o ${normalizeText(values.tenantFatherName)}, aged ${normalizeText(values.tenantAge)}, residing at ${normalizeText(values.tenantAddress)}, mobile ${normalizeText(values.tenantMobile)}, email ${normalizeText(values.tenantEmail)}, holding ${normalizeText(values.tenantIdType)} No. ${normalizeText(values.tenantIdNumber)}, hereinafter called the "LICENSEE" of the OTHER PART.`
+        `This Leave and License Agreement is made at ${place || "[Place]"} on ${agreementDate || "[Date]"} between ${normalizeText(values.ownerName)}, S/o/D/o ${normalizeText(values.ownerFatherName)}, aged ${normalizeText(values.ownerAge)}, residing at ${normalizeText(values.ownerAddress)}, mobile ${normalizeText(values.ownerMobile)}, email ${normalizeText(values.ownerEmail)}${buildOwnerIdentityLine(values.ownerIdType, values.ownerIdNumber, values.ownerUpiId)}, hereinafter called the "LICENSOR" of the FIRST PART, and ${normalizeText(values.tenantName)}, S/o/D/o ${normalizeText(values.tenantFatherName)}, aged ${normalizeText(values.tenantAge)}, residing at ${normalizeText(values.tenantAddress)}, mobile ${normalizeText(values.tenantMobile)}, email ${normalizeText(values.tenantEmail)}, holding ${normalizeText(values.tenantIdType)} No. ${normalizeText(values.tenantIdNumber)}, hereinafter called the "LICENSEE" of the OTHER PART.`
       ]
     },
     {

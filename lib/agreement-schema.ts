@@ -3,6 +3,7 @@ import { z } from "zod";
 const requiredText = z.string().trim().min(1, "This field is required");
 const dateText = requiredText.regex(/^\d{4}-\d{2}-\d{2}$/, "Use a valid date");
 const emailText = requiredText.email("Use a valid email address");
+const optionalText = z.string().trim().optional();
 
 export const agreementSchema = z
   .object({
@@ -18,9 +19,9 @@ export const agreementSchema = z
     ownerAddress: requiredText,
     ownerMobile: requiredText,
     ownerEmail: emailText,
-    ownerIdType: requiredText,
-    ownerIdNumber: requiredText,
-    ownerUpiId: requiredText,
+    ownerIdType: optionalText,
+    ownerIdNumber: optionalText,
+    ownerUpiId: optionalText,
 
     tenantName: requiredText,
     tenantFatherName: requiredText,

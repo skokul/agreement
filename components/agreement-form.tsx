@@ -40,9 +40,9 @@ const sections: Array<{
       { name: "ownerAddress", label: "Owner address", kind: "textarea", rows: 3 },
       { name: "ownerMobile", label: "Owner mobile", kind: "text" },
       { name: "ownerEmail", label: "Owner email", kind: "email" },
-      { name: "ownerIdType", label: "Owner ID type", kind: "text" },
-      { name: "ownerIdNumber", label: "Owner ID number", kind: "text" },
-      { name: "ownerUpiId", label: "Owner UPI ID", kind: "text" }
+      { name: "ownerIdType", label: "Owner ID type (optional)", kind: "text", help: "Leave blank if you do not want to provide an owner ID." },
+      { name: "ownerIdNumber", label: "Owner ID number (optional)", kind: "text" },
+      { name: "ownerUpiId", label: "Owner UPI ID (optional)", kind: "text" }
     ]
   },
   {
