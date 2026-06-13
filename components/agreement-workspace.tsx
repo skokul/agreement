@@ -221,42 +221,23 @@ export function AgreementWorkspace({ mode, agreementId }: AgreementWorkspaceProp
   return (
     <div className="mx-auto min-h-screen max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
       {header}
-      <div className="grid gap-6 xl:grid-cols-[minmax(0,1.08fr)_minmax(0,0.92fr)]">
-        <div className="document-card p-5 sm:p-6">
-          <FormProvider {...form}>
-            <form
-              className="space-y-5"
-              onSubmit={(event) => {
-                event.preventDefault();
-                void handleSave(form.getValues());
-              }}
-            >
-              <AgreementForm />
-              <div className="flex flex-wrap items-center gap-3 border-t border-ink-200 pt-5">
-                <button type="submit" className="button-primary" disabled={!canSave}>
-                  {mode === "new" ? "Save Draft" : "Save Changes"}
-                </button>
-                <DownloadButtons model={template} filenameBase={filenameBase} disabled={!isReady} />
-                <ShareButton getLink={shareLinkBuilder} disabled={!isReady} />
-              </div>
-              {status ? <p className="text-sm text-ink-600">{status}</p> : null}
-            </form>
-          </FormProvider>
-        </div>
-
-        <div className="document-card flex items-stretch p-5 sm:p-6">
-          <div className="flex w-full flex-col justify-between gap-6 rounded-3xl border border-dashed border-ink-300 bg-ink-50/60 p-6">
-            <div className="space-y-3">
-              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-ink-500">Agreement preview</p>
-              <h2 className="text-2xl font-semibold tracking-tight text-ink-950">Open in a new tab</h2>
-              <p className="text-sm leading-6 text-ink-600">
-                Click the button below to open the latest agreement snapshot in a separate tab for review.
-              </p>
-            </div>
-            <div className="space-y-3">
+      <div className="document-card p-5 sm:p-6">
+        <FormProvider {...form}>
+          <form
+            className="space-y-5"
+            onSubmit={(event) => {
+              event.preventDefault();
+              void handleSave(form.getValues());
+            }}
+          >
+            <AgreementForm />
+            <div className="flex flex-wrap items-center gap-3 border-t border-ink-200 pt-5">
+              <button type="submit" className="button-primary" disabled={!canSave}>
+                {mode === "new" ? "Save Draft" : "Save Changes"}
+              </button>
               <button
                 type="button"
-                className="button-primary w-full"
+                className="button-secondary"
                 disabled={!isReady || !previewLink}
                 onClick={() => {
                   if (!previewLink) {
@@ -267,12 +248,12 @@ export function AgreementWorkspace({ mode, agreementId }: AgreementWorkspaceProp
               >
                 Open Agreement Preview
               </button>
-              <p className="text-xs leading-5 text-ink-500">
-                The preview uses the current form values, so it stays in sync with your edits.
-              </p>
+              <DownloadButtons model={template} filenameBase={filenameBase} disabled={!isReady} />
+              <ShareButton getLink={shareLinkBuilder} disabled={!isReady} />
             </div>
-          </div>
-        </div>
+            {status ? <p className="text-sm text-ink-600">{status}</p> : null}
+          </form>
+        </FormProvider>
       </div>
     </div>
   );
