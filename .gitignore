@@ -1,0 +1,10 @@
+.next
+node_modules
+dist
+out
+.env.local
+.env*.local
+coverage
+*.log
+*.tmp
+*.cache

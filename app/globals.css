@@ -1,0 +1,56 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-ink-50 text-ink-900 antialiased;
+  font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+::selection {
+  background: rgba(15, 23, 42, 0.15);
+}
+
+.document-card {
+  @apply rounded-3xl border border-ink-200 bg-white shadow-soft;
+}
+
+.label-text {
+  @apply mb-1 block text-sm font-medium text-ink-700;
+}
+
+.input-base {
+  @apply w-full rounded-2xl border border-ink-200 bg-white px-4 py-3 text-sm text-ink-900 outline-none transition focus:border-ink-400 focus:ring-2 focus:ring-ink-200;
+}
+
+.textarea-base {
+  @apply min-h-28 w-full rounded-2xl border border-ink-200 bg-white px-4 py-3 text-sm text-ink-900 outline-none transition focus:border-ink-400 focus:ring-2 focus:ring-ink-200;
+}
+
+.button-base {
+  @apply inline-flex items-center justify-center rounded-2xl px-4 py-3 text-sm font-semibold transition;
+}
+
+.button-primary {
+  @apply button-base bg-ink-900 text-white hover:bg-ink-800;
+}
+
+.button-secondary {
+  @apply button-base border border-ink-200 bg-white text-ink-800 hover:bg-ink-100;
+}
+
+.button-danger {
+  @apply button-base border border-red-200 bg-red-50 text-red-700 hover:bg-red-100;
+}
