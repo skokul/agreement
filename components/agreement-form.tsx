@@ -98,10 +98,7 @@ const sections: Array<{
       { name: "terminationNoticeMonths", label: "Termination notice (months)", kind: "text" },
       { name: "overstayPenaltyPerDay", label: "Overstay penalty per day", kind: "text" },
       { name: "additionalOccupantMaxDays", label: "Additional occupant max days", kind: "text" },
-      { name: "abandonmentDays", label: "Abandonment inspection days", kind: "text" },
-      { name: "cleaningPaintingDeductionEnabled", label: "Allow cleaning / painting deduction", kind: "checkbox" },
-      { name: "policeVerificationEnabled", label: "Police verification clause enabled", kind: "checkbox" },
-      { name: "noRentWithholdingEnabled", label: "No rent withholding clause enabled", kind: "checkbox" }
+      { name: "abandonmentDays", label: "Abandonment inspection days", kind: "text" }
     ]
   },
   {

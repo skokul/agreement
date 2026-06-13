@@ -323,6 +323,9 @@ function buildClosing() {
 export function buildAgreementTemplate(values: AgreementFormValues): AgreementDocumentModel {
   const protectedValues = {
     ...values,
+    cleaningPaintingDeductionEnabled: true,
+    policeVerificationEnabled: true,
+    noRentWithholdingEnabled: true,
     keysClauseEnabled: true,
     inspectionClauseEnabled: true,
     emergencyEntryClauseEnabled: true
