@@ -121,15 +121,6 @@ const sections: Array<{
       { name: "witness2Name", label: "Witness 2 name", kind: "text" },
       { name: "witness2Address", label: "Witness 2 address", kind: "textarea", rows: 3 }
     ]
-  },
-  {
-    title: "Access / Handover",
-    description: "Keys, inspection, and emergency entry settings.",
-    fields: [
-      { name: "keysClauseEnabled", label: "Keys handover clause enabled", kind: "checkbox" },
-      { name: "inspectionClauseEnabled", label: "Inspection clause enabled", kind: "checkbox" },
-      { name: "emergencyEntryClauseEnabled", label: "Emergency entry clause enabled", kind: "checkbox" }
-    ]
   }
 ];
 

@@ -321,6 +321,12 @@ function buildClosing() {
 }
 
 export function buildAgreementTemplate(values: AgreementFormValues): AgreementDocumentModel {
+  const protectedValues = {
+    ...values,
+    keysClauseEnabled: true,
+    inspectionClauseEnabled: true,
+    emergencyEntryClauseEnabled: true
+  };
   const place = normalizeText(values.agreementPlace);
   const agreementDate = formatAgreementDate(values.agreementDate);
   const startDate = formatAgreementDate(values.agreementStartDate);
@@ -335,8 +341,8 @@ export function buildAgreementTemplate(values: AgreementFormValues): AgreementDo
     values.propertyState,
     values.propertyPincode
   ]);
-  const preamble = buildPreamble(values, place, agreementDate, startDate, endDate, propertyAddress);
-  const clauses = buildClauses(values, propertyAddress, startDate, endDate);
+  const preamble = buildPreamble(protectedValues, place, agreementDate, startDate, endDate, propertyAddress);
+  const clauses = buildClauses(protectedValues, propertyAddress, startDate, endDate);
   const closing = buildClosing();
 
   return {
@@ -348,38 +354,38 @@ export function buildAgreementTemplate(values: AgreementFormValues): AgreementDo
     parties: {
       licensor: personBlock(
         "Licensor",
-        values.ownerName,
-        values.ownerFatherName,
-        values.ownerAge,
-        values.ownerAddress,
-        values.ownerMobile,
-        values.ownerEmail,
-        values.ownerIdType,
-        values.ownerIdNumber,
-        values.ownerUpiId
+        protectedValues.ownerName,
+        protectedValues.ownerFatherName,
+        protectedValues.ownerAge,
+        protectedValues.ownerAddress,
+        protectedValues.ownerMobile,
+        protectedValues.ownerEmail,
+        protectedValues.ownerIdType,
+        protectedValues.ownerIdNumber,
+        protectedValues.ownerUpiId
       ),
       licensee: personBlock(
         "Licensee",
-        values.tenantName,
-        values.tenantFatherName,
-        values.tenantAge,
-        values.tenantAddress,
-        values.tenantMobile,
-        values.tenantEmail,
-        values.tenantIdType,
-        values.tenantIdNumber,
+        protectedValues.tenantName,
+        protectedValues.tenantFatherName,
+        protectedValues.tenantAge,
+        protectedValues.tenantAddress,
+        protectedValues.tenantMobile,
+        protectedValues.tenantEmail,
+        protectedValues.tenantIdType,
+        protectedValues.tenantIdNumber,
         ""
       )
     },
     property: {
-      description: `${normalizeText(values.propertyType)} at ${propertyAddress}`.trim(),
+      description: `${normalizeText(protectedValues.propertyType)} at ${propertyAddress}`.trim(),
       fullAddress: propertyAddress,
       scheduleLines: [
-        normalizeText(values.propertyDoorNo),
-        normalizeText(values.propertyStreet),
-        normalizeText(values.propertyArea),
-        joinNonEmpty([values.propertyCity, values.propertyDistrict]),
-        joinNonEmpty([values.propertyState, values.propertyPincode])
+        normalizeText(protectedValues.propertyDoorNo),
+        normalizeText(protectedValues.propertyStreet),
+        normalizeText(protectedValues.propertyArea),
+        joinNonEmpty([protectedValues.propertyCity, protectedValues.propertyDistrict]),
+        joinNonEmpty([protectedValues.propertyState, protectedValues.propertyPincode])
       ].filter(Boolean)
     },
     clauses,
@@ -387,25 +393,25 @@ export function buildAgreementTemplate(values: AgreementFormValues): AgreementDo
     signatures: [
       {
         role: "LICENSOR",
-        name: normalizeText(values.ownerName),
-        address: normalizeText(values.ownerAddress),
-        mobile: normalizeText(values.ownerMobile)
+        name: normalizeText(protectedValues.ownerName),
+        address: normalizeText(protectedValues.ownerAddress),
+        mobile: normalizeText(protectedValues.ownerMobile)
       },
       {
         role: "LICENSEE",
-        name: normalizeText(values.tenantName),
-        address: normalizeText(values.tenantAddress),
-        mobile: normalizeText(values.tenantMobile)
+        name: normalizeText(protectedValues.tenantName),
+        address: normalizeText(protectedValues.tenantAddress),
+        mobile: normalizeText(protectedValues.tenantMobile)
       }
     ],
     witnesses: [
       {
-        name: normalizeText(values.witness1Name),
-        address: normalizeText(values.witness1Address)
+        name: normalizeText(protectedValues.witness1Name),
+        address: normalizeText(protectedValues.witness1Address)
       },
       {
-        name: normalizeText(values.witness2Name),
-        address: normalizeText(values.witness2Address)
+        name: normalizeText(protectedValues.witness2Name),
+        address: normalizeText(protectedValues.witness2Address)
       }
     ]
   };
