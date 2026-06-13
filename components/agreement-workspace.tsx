@@ -132,8 +132,6 @@ export function AgreementWorkspace({ mode, agreementId }: AgreementWorkspaceProp
     return origin ? buildAgreementShareLink(origin, { record }) : "";
   };
 
-  const previewLink = shareLinkBuilder();
-
   const filenameBase = safeFileName(`leave-license-${agreementId}`);
   const isReady = hydrated && !loadError;
   const canSave = isReady && !form.formState.isSubmitting;
@@ -234,19 +232,6 @@ export function AgreementWorkspace({ mode, agreementId }: AgreementWorkspaceProp
             <div className="flex flex-wrap items-center gap-3 border-t border-ink-200 pt-5">
               <button type="submit" className="button-primary" disabled={!canSave}>
                 {mode === "new" ? "Save Draft" : "Save Changes"}
-              </button>
-              <button
-                type="button"
-                className="button-secondary"
-                disabled={!isReady || !previewLink}
-                onClick={() => {
-                  if (!previewLink) {
-                    return;
-                  }
-                  window.open(previewLink, "_blank", "noopener,noreferrer");
-                }}
-              >
-                Open Agreement Preview
               </button>
               <DownloadButtons model={template} filenameBase={filenameBase} disabled={!isReady} />
               <ShareButton getLink={shareLinkBuilder} disabled={!isReady} />
