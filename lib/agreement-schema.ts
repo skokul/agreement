@@ -1,13 +1,15 @@
 import { z } from "zod";
 
 const requiredText = z.string().trim().min(1, "This field is required");
+const dateText = requiredText.regex(/^\d{4}-\d{2}-\d{2}$/, "Use a valid date");
+const emailText = requiredText.email("Use a valid email address");
 
 export const agreementSchema = z
   .object({
     agreementPlace: requiredText,
-    agreementDate: requiredText,
-    agreementStartDate: requiredText,
-    agreementEndDate: requiredText,
+    agreementDate: dateText,
+    agreementStartDate: dateText,
+    agreementEndDate: dateText,
     agreementTermMonths: requiredText,
 
     ownerName: requiredText,
@@ -15,7 +17,7 @@ export const agreementSchema = z
     ownerAge: requiredText,
     ownerAddress: requiredText,
     ownerMobile: requiredText,
-    ownerEmail: requiredText,
+    ownerEmail: emailText,
     ownerIdType: requiredText,
     ownerIdNumber: requiredText,
     ownerUpiId: requiredText,
@@ -25,7 +27,7 @@ export const agreementSchema = z
     tenantAge: requiredText,
     tenantAddress: requiredText,
     tenantMobile: requiredText,
-    tenantEmail: requiredText,
+    tenantEmail: emailText,
     tenantIdType: requiredText,
     tenantIdNumber: requiredText,
 
@@ -85,4 +87,3 @@ export const agreementSchema = z
   });
 
 export type AgreementFormValues = z.infer<typeof agreementSchema>;
-

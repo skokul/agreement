@@ -149,12 +149,12 @@ export function AgreementWorkspace({ mode, agreementId }: AgreementWorkspaceProp
         <Link href="/agreement/new" className="button-secondary">
           New Agreement
         </Link>
-        {mode !== "new" ? (
+        {mode === "view" ? (
           <Link href={`/agreement/${agreementId}/edit`} className="button-secondary">
             Edit
           </Link>
         ) : null}
-        {mode !== "view" ? (
+        {mode === "edit" ? (
           <Link href={`/agreement/${agreementId}`} className="button-secondary">
             Read-only view
           </Link>

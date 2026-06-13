@@ -1,4 +1,5 @@
 import type { AgreementRecord } from "@/lib/agreement-storage";
+import { agreementSchema } from "@/lib/agreement-schema";
 
 export interface AgreementSnapshot {
   record: AgreementRecord;
@@ -39,9 +40,11 @@ export function decodeAgreementSnapshot(encoded: string) {
   try {
     const json = fromBase64Url(encoded);
     const parsed = JSON.parse(json) as AgreementSnapshot;
-    if (!parsed?.record?.id || !parsed.record.values) {
+    const validation = agreementSchema.safeParse(parsed?.record?.values);
+    if (!parsed?.record?.id || !validation.success) {
       return null;
     }
+    parsed.record.values = validation.data;
     return parsed;
   } catch {
     return null;
@@ -52,4 +55,3 @@ export function buildAgreementShareLink(origin: string, snapshot: AgreementSnaps
   const encoded = encodeAgreementSnapshot(snapshot);
   return `${origin}/agreement/${snapshot.record.id}?snapshot=${encoded}`;
 }
-
