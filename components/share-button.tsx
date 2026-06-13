@@ -4,9 +4,10 @@ import { useState } from "react";
 
 interface ShareButtonProps {
   getLink: () => string;
+  disabled?: boolean;
 }
 
-export function ShareButton({ getLink }: ShareButtonProps) {
+export function ShareButton({ getLink, disabled }: ShareButtonProps) {
   const [status, setStatus] = useState<"idle" | "copied" | "failed">("idle");
 
   async function handleCopy() {
@@ -36,9 +37,8 @@ export function ShareButton({ getLink }: ShareButtonProps) {
   }
 
   return (
-    <button type="button" className="button-secondary" onClick={handleCopy}>
+    <button type="button" className="button-secondary" onClick={handleCopy} disabled={disabled}>
       {status === "copied" ? "Share link copied" : status === "failed" ? "Copy failed" : "Copy Share Link"}
     </button>
   );
 }
-

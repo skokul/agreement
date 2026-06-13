@@ -204,7 +204,7 @@ export function AgreementWorkspace({ mode, agreementId }: AgreementWorkspaceProp
           <AgreementPreview model={template} />
           <div className="mt-6 flex flex-wrap items-center gap-3">
             <DownloadButtons model={template} filenameBase={filenameBase} disabled={!canExport} />
-            <ShareButton getLink={shareLinkBuilder} />
+            <ShareButton getLink={shareLinkBuilder} disabled={!isReady} />
           </div>
           {status ? <p className="mt-4 text-sm text-ink-600">{status}</p> : null}
         </div>
@@ -225,7 +225,7 @@ export function AgreementWorkspace({ mode, agreementId }: AgreementWorkspaceProp
                   {mode === "new" ? "Save Draft" : "Save Changes"}
                 </button>
                 <DownloadButtons model={template} filenameBase={filenameBase} disabled={!canExport} />
-                <ShareButton getLink={shareLinkBuilder} />
+                <ShareButton getLink={shareLinkBuilder} disabled={!isReady} />
               </div>
               {status ? <p className="text-sm text-ink-600">{status}</p> : null}
             </form>
