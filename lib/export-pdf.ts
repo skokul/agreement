@@ -1,4 +1,4 @@
-import { createElement, type ReactElement } from "react";
+import { createElement } from "react";
 import type { AgreementDocumentModel } from "@/lib/agreement-template";
 
 export async function createAgreementPdfBlob(model: AgreementDocumentModel) {
@@ -7,6 +7,8 @@ export async function createAgreementPdfBlob(model: AgreementDocumentModel) {
     import("@/components/agreement-pdf")
   ]);
 
-  const documentElement = createElement(AgreementPdfDocument, { model }) as unknown as ReactElement;
-  return pdf(documentElement).toBlob();
+  const renderPdf = pdf as unknown as (document: ReturnType<typeof createElement>) => {
+    toBlob: () => Promise<Blob>;
+  };
+  return renderPdf(createElement(AgreementPdfDocument, { model })).toBlob();
 }
